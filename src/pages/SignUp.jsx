@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
     const [firstName, setFirstName] = useState()
@@ -7,21 +8,33 @@ const SignUp = () => {
     const [password, setPassword] = useState()
     const [error, setError] = useState("")
 
+    const navigate = useNavigate()
+
     const validateEmail = (email) => {
         const regEx = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return regEx.test(email)
     }
 
-    const handleSignUp = async () => {
+    const handleSignUp = async (e) => {
+      // try{
+        e.preventDefault()
+        // clear previous error
+        setError("")
+
+        // check that all fields are filled
         if (firstName && lastName && email && password && validateEmail(email)) {
-           setError("All fields are required")
+          setError("All fields are required")
         }
         if(!validateEmail(email)){
-            setError("Invalid Email")
+           setError("Invalid Email")
         }
         if(password.length < 6){
-            setPassword("Password must be 6 or more characters")
+          setError("Password must be 6 or more characters")
         }
+        navigate("/logIn")
+      // }catch(error){
+      //   setError("Sign up failed. Please try again")
+      // }
     }
   return (
     <div className=" w-100 bg-white p-10 rounded-lg shadow-lg mx-115 my-30">
@@ -43,11 +56,12 @@ const SignUp = () => {
           />
           <label
             for="floating_outlined"
-            class="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 top-2 z-10 origin-[0] bg-white disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+            class="text-blue-900 text-bold peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 top-2 z-10 origin-[0] bg-white disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
           >
             First name
           </label>
         </div>
+       
 
         <div id="input" className="relative">
           <input
@@ -60,11 +74,12 @@ const SignUp = () => {
           />
           <label
             for="floating_outlined"
-            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 top-2 z-10 origin-[0] bg-white disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+            className="text-blue-900 text-bold peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 top-2 z-10 origin-[0] bg-white disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
           >
             Last name
           </label>
         </div>
+        
 
         <div id="input" class="relative">
           <input
@@ -77,38 +92,49 @@ const SignUp = () => {
           />
           <label
             for="floating_outlined"
-            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 top-2 z-10 origin-[0] bg-white disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+            className="text-blue-900 text-bold peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 top-2 z-10 origin-[0] bg-white disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
           >
             E-mail
           </label>
-        </div>
+          {/* {error && (
+          <p id="input" className="text-red-500 pt-1 text-sm">{emailValid}</p>
+          )} */}
 
+        </div>
+        
         <div id="input" class="relative">
           <input
             type="text"
             id="floating_outlined"
             className="block w-full text-sm h-[50px] px-4 text-slate-900 bg-white rounded-[8px] border border-violet-200 appearance-none focus:outline-none focus:ring-1 focus:ring-violet-300 focus:outline-primary focus:ring-0 hover:border-brand-500-secondary- peer invalid:border-error-500 invalid:focus:border-error-500 overflow-ellipsis overflow-hidden text-nowrap pr-[48px]"
-            placeholder="Password"
+            placeholder="Password (6 or more characters)"
             value= {email}
             onChange={() => setEmail(email)}
           />
           <label
             for="floating_outlined"
-            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 top-2 z-10 origin-[0] bg-white disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+            className="text-blue-900 text-bold peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 top-2 z-10 origin-[0] bg-white disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
           >
             Password
           </label>
+          {error && (
+          <p id="input" className="text-red-500 pt-1 text-sm">{error}</p>
+          )}
         </div>
 
        
       </div>
 
-      <div className="sm:flex sm:flex-row-reverse flex gap-4">
+      <div className="sm:flex sm:flex-row-reverse flex ">
         <button
-          className="w-fit rounded-lg text-sm px-5 py-2 focus:outline-none h-[50px] border bg-violet-500 hover:bg-violet-600 hover:cursor-pointer focus:bg-violet-700 border-violet-500-violet- text-white focus:ring-4 focus:ring-violet-200 hover:ring-4 hover:ring-violet-100 transition-all duration-300"
+           to="/logIn"
+          className="w-fit rounded-lg text-sm px-5 py-3 focus:outline-none h-[50px] border bg-violet-500 hover:bg-violet-600 hover:cursor-pointer focus:bg-violet-700 border-violet-500-violet- text-white focus:ring-4 focus:ring-violet-200 hover:ring-4 hover:ring-violet-100 transition-all duration-300"
           type="button"
+          onClick={handleSignUp}
         >
-          <div className="flex gap-2 items-center">Sign up</div>
+          <div className="text-center">
+            Sign up
+            </div>
         </button>
        
       </div>
